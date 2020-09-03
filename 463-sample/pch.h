@@ -24,6 +24,9 @@ CSCE 463 - Fall 2020
 #include <time.h>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
 
 
 #endif //PCH_H

@@ -170,6 +170,15 @@ int main(int argc, char* argv[])
 {
 	// connect to a server; test basic winsock functionality
 
+	ifstream inFile;
+	istringstream fileReadIn;
+	long long lineCount = 0;
+	long long charIndex = 0;
+	char** URLs;
+	ostringstream output;
+	string s, fileData;
+	char URL[MAX_URL_LEN] = { NULL };
+
 	switch (argc) {
 	case 1:
 		printf("No argument was given!");
@@ -179,7 +188,28 @@ int main(int argc, char* argv[])
 		break;
 	case 3:
 		//thread stuf
-		printf("Yeet");
+		inFile.open(argv[2], ios::in | ios::binary);
+		output << inFile.rdbuf();
+		fileData = output.str();
+		inFile.close();
+
+		while (fileData[charIndex] != '\0') {
+			if (fileData[charIndex] == '\n')
+				lineCount++;
+			charIndex++;
+		}
+
+		URLs = new char*[lineCount];
+
+		fileReadIn = istringstream(fileData);
+		for (int i = 0; i < lineCount; i++) { //easy manipulation, the 1M URL doesn't take up too much memory
+			getline(fileReadIn, s);
+			s.pop_back(); //get rid of carriage return 
+		
+			URLs[i] = s.c_str();
+			winsock_test(s);
+		}
+
 		break;
 	default:
 		printf("Invalid input, ");
